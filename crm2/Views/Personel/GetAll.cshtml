@@ -1,0 +1,83 @@
+﻿@model List<Application.Contracts.Personels.PersonelDto>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var error = (string)ViewBag.Error;
+
+}
+<a class="btn btn-success" href="/Personel/Yeni" data-toggle="modal" data-target="#exampleModal">Yeni Personel</a>
+<h2>Personel Listesi</h2>
+@*@using(Html.BeginForm("Index","Departman",FormMethod.Get))
+{
+    @Html.RadioButton("searchBy","Ad")<text>Ad</text>
+    @Html.TextBox("search")
+    <input type="submit" value="SEARCH" />
+}*@
+@if (!string.IsNullOrWhiteSpace(error))
+{
+    @error
+}
+<table class=" table table-bordered" id="tblDepartmanlar">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Personelin Departmanı</th>
+            <th>@Html.ActionLink("Ad","Index",new {orderby=ViewBag.orderby })</th>
+            <th>Soyad</th>
+            <th>Yas</th>
+            <th>DogumTarihi</th>
+            <th>Role</th>
+            <th>Guncelle</th>
+            <th>Sil</th>
+            <th>Personeller</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var personel in Model)
+        {
+            <tr>
+                <td>@personel.Id</td>
+                <td>@personel.Departman.DepartmanName</td>
+                <td>@personel.Ad</td>
+                <td>@personel.Soyad</td>
+                <td>@personel.Yas</td>
+                <td>@personel.DogumTarihi</td>
+                <td>@personel.Role.RoleName</td>
+                <td><a class="btn btn-primary" href="/Personel/Guncelle/@personel.Id">Guncelle</a></td>
+                <td><a class="btn btn-warning btDepartmanSil " href="/Personel/deletePersonel/@personel.Id" data-ide="@personel.Id">Sil</a></td>
+                @*<td>@Html.ActionLink("Personelleri Göster","PersonelleriListele","Personel",new{id=departman.Id} ,new {@class="btn btn-primary"})</td>*@
+                <td>
+                    <a class="btn btn-primary" href="javascript:void(0)"
+                   onclick="loadTasks(@personel.Id)">Tasklari Göster</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+<div id="taskListesi"></div>
+
+
+
+
+<script>
+    function loadTasks(personelId) {
+        $.ajax({
+            url: "/Task/TasklariListele/" + personelId,
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                // Update the content of the div with the received data
+                console.log(data)
+                $('#taskListesi').html(data)
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+</script>
+
+

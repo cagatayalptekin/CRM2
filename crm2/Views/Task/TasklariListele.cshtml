@@ -1,0 +1,23 @@
+﻿@model List<Application.Contracts.Tasks.TaskDto>
+@{
+
+
+}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Deadline</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td>@task.TaskName</td>
+                <td>@task.Deadline</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

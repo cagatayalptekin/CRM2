@@ -1,0 +1,35 @@
+﻿@model Application.Contracts.Roles.RoleDto
+@{
+    ViewBag.Title = "Yeni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Role Formu</h2>
+@*@<form method="post" action="">
+        <div class="form-group">
+            <label>Departman Adı</label>
+            <input type="text" name="Ad" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-success">Ekle</button>
+    </form>*@
+<div id="mesaj">
+</div>
+<form asp-action="Kaydet" asp-controller="Role" method="POST" data-ajax="true" data-ajax-update="result">
+    <!-- form content-->
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.RoleName)
+        @Html.TextBoxFor(m => m.RoleName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.RoleName)
+
+    </div>
+
+    @Html.HiddenFor(m => m.Id)
+    
+    <button type="submit" class="btn btn-success">Kaydet</button>
+
+</form>
+@section scripts
+    {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}

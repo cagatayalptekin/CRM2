@@ -1,0 +1,52 @@
+﻿@model Application.Contracts.Tasks.TaskFormViewModel
+@{
+    ViewBag.Title = "PersonelForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Task Formu</h2>
+@if (Model.Personels.Count() != 0)
+{
+
+
+    @Html.ValidationSummary()
+    @using (Html.BeginForm("Kaydet", "Task", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.LabelFor(m => m.TaskDto.TaskName)
+            @Html.TextBoxFor(m => m.TaskDto.TaskName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TaskDto.TaskName);
+
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.TaskDto.Deadline)
+            @Html.TextBoxFor(m => m.TaskDto.Deadline, "{0:dd-MM-yyyy}", new { @class = "form-control", type = "date", onchange = "CheckDateTypeIsValid(this)" })
+
+            @Html.ValidationMessageFor(m => m.TaskDto.Deadline)
+
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.TaskDto.PersonelId)
+            @Html.DropDownListFor(m => m.TaskDto.PersonelId, new SelectList(Model.Personels, "Id", "Ad"), new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TaskDto.PersonelId)
+        </div>
+
+
+
+
+
+
+        @Html.HiddenFor(m => m.TaskDto.Id)
+        <button type="submit" class="btn btn-default">Kaydet</button>
+    }
+}
+else{
+    <button class="btn btn-default">Task eklemek için önce Personel eklemelisiniz.</button>
+}
+
+@section scripts
+    {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}

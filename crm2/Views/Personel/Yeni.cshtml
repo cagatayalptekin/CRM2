@@ -1,0 +1,76 @@
+﻿@model Application.Contracts.Personels.PersonelFormViewModel
+@{
+    ViewBag.Title = "PersonelForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Personel Formu</h2>
+<div id="mesaj">
+</div>
+@if(Model.Departmans.Count()!=0 && Model.Roles.Count()!=0)
+{
+    @Html.ValidationSummary()
+    @using (Html.BeginForm("Kaydet", "Personel", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.LabelFor(m => m.PersonelDto.Ad)
+            @Html.TextBoxFor(m => m.PersonelDto.Ad, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonelDto.Ad)
+
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.PersonelDto.Soyad)
+            @Html.TextBoxFor(m => m.PersonelDto.Soyad, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonelDto.Soyad)
+
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.PersonelDto.DepartmanId)
+            @Html.DropDownListFor(m => m.PersonelDto.DepartmanId, new SelectList(Model.Departmans, "Id", "DepartmanName"), new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonelDto.DepartmanId)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.PersonelDto.RoleId)
+            @Html.DropDownListFor(m => m.PersonelDto.RoleId, new SelectList(Model.Roles, "Id", "RoleName"), new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonelDto.RoleId)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.PersonelDto.DogumTarihi)
+            @Html.TextBoxFor(m => m.PersonelDto.DogumTarihi, "{0:dd-MM-yyyy}", new { @class = "form-control", type = "date", onchange = "CheckDateTypeIsValid(this)" })
+            @Html.ValidationMessageFor(m => m.PersonelDto.DogumTarihi)
+
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.PersonelDto.Yas)
+            @Html.TextBoxFor(m => m.PersonelDto.Yas, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonelDto.Yas)
+
+        </div>
+
+
+        @Html.HiddenFor(m => m.PersonelDto.Id)
+        <button type="submit" data-toggle="modal" class="btn btn-default">Kaydet</button>
+    }
+}
+else
+{
+    <button class="btn btn-default">Personel eklemek için önce Departman ve Role eklemelisiniz.</button>
+    
+
+
+
+
+
+
+}
+
+
+@section scripts
+    {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+}
