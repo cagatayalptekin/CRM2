@@ -171,4 +171,3 @@ USE [master]
 GO
 ALTER DATABASE [Company] SET  READ_WRITE 
 GO
-
